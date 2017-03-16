@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title> sets </title>
+	</head>
+	<body>
+		<p> Your Sets </p>
+		<ul>
+		{% for set in details %}
+			<li><b>Set Name: </b> {{set[0]}}</li>
+			<li><b>Date Created: </b> {{set[1]}}</li>
+			<li><b>Link: </b><a href="https://www.quizlet.com{{set[2]}}">Study!</a></li>
+		{% endfor %}
+	</body>
+</html>
