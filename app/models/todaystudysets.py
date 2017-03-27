@@ -1,12 +1,13 @@
 import requests,pprint,datetime,time,json,os,itertools
 
-#import the current user's public decks, decode the json, and store in setsrequestjson
-setsrequest = requests.get('https://api.quizlet.com/2.0/users/wuzza_face/sets/?client_id=pyjFb2bnBN')
-setsrequestjson = setsrequest.json()
+class todaystudysets():
+
+    def __init__(self,setsrequestjson):
+        self.setsrequestjson = setsrequestjson
 
 #dates each deck was created converted from epoch time to a date object
 #the day of the week as a numerical value (1-7:Mon-Sun) that corresponds with each date object for decks
-days = ([datetime.date.isoweekday(datetime.date.fromtimestamp(item["created_date"])) for item in setsrequestjson])
+days = ([datetime.date.isoweekday(datetime.date.fromtimestamp(item["created_date"])) for item in self.setsrequestjson])
 #print("dates", dates)
 
 #ids of all of the decks that were imported
