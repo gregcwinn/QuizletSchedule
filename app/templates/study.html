@@ -14,25 +14,25 @@ th {
         <p>You should study. Go you, look at you, you winner you. Studying. You deserve a cookie. No, scratch that. Losers eat cookies. How about some beef jerky? Doesn't that sound nice? Go get 'em tiger.</p>
 {% endblock %}
 {% block body %}
-	<div class="container-fluid bg-1 text-center">
-		<h2>Today's Flashcards</h2>
-		<table class="table">
-		<thead>
-		<tr>
-			<th>Set Name</th>
-			<th>Date Created</th>
-		</tr>
-		</thead>
-		<tbody>
-			{% for set in details %}
-			<tr>
-				<td><a href="https://www.quizlet.com{{set[2]}}">{{set[0]}}</a></td>
-				<td>{{set[1]}}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-		</table>
-	</div>
+  <div class="container-fluid bg-1 text-center">
+    <h2>Today's Flashcards</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Set Name</th>
+            <th>Date Created</th>
+              </tr>
+              </thead>
+              <tbody>
+                {% for item in details %}
+                  <tr>
+                    <td><a href="https://www.quizlet.com{{item['url']}}">{{item['title']}}</a></td>
+                    <td>{{item['datecreated']}}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+      </table>
+  </div>
 {% endblock %}
 ~
 

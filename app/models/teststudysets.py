@@ -6,6 +6,7 @@ setsrequestjson = setsrequest.json()
 
 new = StudySets(setsrequestjson)
 
+'''
 print(new.epochtodate())
 print(new.listofids())
 print(new.ishistoryempty(new.listofids(),new.epochtodate()))
@@ -13,6 +14,8 @@ print(new.gethistory())
 print(new.addnewsets(new.gethistory()))
 print(new.nextstudydays(new.gethistory()))
 print(new.currentweekday())
-print(new.todaystudysets(new.nextstudydays(new.gethistory())))
+print(new.todaystudysets(new.nextstudydays(new.gethistory()),new.currentweekday()))
 print(new.updatehistory(new.gethistory(),new.currentweekday()))
+'''
 
+print(new.getcurrentsets())

@@ -64,29 +64,30 @@ class StudySets:
   #calgulate what the current day of the week(Sunday,Monday,Tuesday...)
   def currentweekday(self):
     currentweekday = datetime.date.isoweekday((datetime.datetime.utcnow()))
-    print(currentweekday)
     return currentweekday
 
   #calculate the sets that should be studied based on the current day of the week
-  def todaystudysets(self,newstudydays):
+  def todaystudysets(self,newstudydays,currentweekday):
     for item in newstudydays:
       if item["dayofweek"] == currentweekday:
-        todaystudysets = [{request["title"],request["url"],time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(request["created_date"]))} for request in self.setsrequestjson if request["id"] == item["id"]]
+        todaystudysets = [{'title':request["title"],'url':request["url"],'datecreated':time.strftime('%Y-%m-%d',time.localtime(request["created_date"]))} for request in self.setsrequestjson if request["id"] == item["id"]]
     return todaystudysets
 
 
   #update histore store for next lookup on sets that are currently being studied
   def updatehistory(self,historystorage,currentweekday):
-    currentweekday = currentweekday
-    print(currentweekday)
-    
-    #for item in historystorage:
-    #   if item["dayofweek"] == currentweekday:
-    #       if item["laststudied"] == "firststudy":
-    #           item["laststudied"] = "secondstudy"
-    #       elif item["laststudied"] == "secondstudy":
-    #           item["laststudied"] = "weeklystudy"
-    #with open('testdata.json', "w") as f:
-     # json.dump(historystorage,f)
-    
+    for item in historystorage:
+       if item["dayofweek"] == currentweekday:
+           if item["laststudied"] == "firststudy":
+               item["laststudied"] = "secondstudy"
+           elif item["laststudied"] == "secondstudy":
+               item["laststudied"] = "weeklystudy"
+    with open('testdata.json', "w") as f:
+      json.dump(historystorage,f)
 
+  def getcurrentsets(self):
+    self.ishistoryempty(self.listofids(),self.epochtodate())
+    self.addnewsets(self.gethistory())
+    todaysets = self.todaystudysets(self.nextstudydays(self.gethistory()),self.currentweekday())
+    self.updatehistory(self.gethistory(),self.currentweekday())
+    return todaysets
