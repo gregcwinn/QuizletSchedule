@@ -37,30 +37,18 @@ class StudySets:
       if set["id"] not in historyids:
         historystorage.append({'id': set["id"],'laststudied': 'firststudy','dayofweek': datetime.date.isoweekday(datetime.date.fromtimestamp(set["created_date"]))}) 
 
+  def incrementstudyday(value, i):
+    return (value - 1) % 7 + 1
 
   #determine the week day that each deck should study based on the history storage
   #counting from the week day that the deck was created, firststudy advances by 1 day, secondstudy by 3, and weeklystudy is the same day of the week as the initial deck creation.
   def nextstudydays(self,historystorage):
+    daystoprogress = {"firststudy" : 1,
+                      "secondstudy" : 3}
     newstudydays = historystorage
+    daystoprogress = 0
     for studyday in newstudydays:
-      #first study day
-      if studyday["laststudied"] == "firststudy" and studyday["dayofweek"] < 7:
-        studyday["dayofweek"] += 1
-      if studyday["dayofweek"] == 7:
-        studyday["dayofweek"] = 1
-      #second study day
-      if studyday["laststudied"] == "secondstudy":
-        if studyday["dayofweek"] < 4:
-          studyday["dayofweek"] = studyday["dayofweek"] + 3
-        elif studyday["dayofweek"] == 5:
-          studyday["dayofweek"] = 1
-        elif studyday["dayofweek"] == 6:
-          studyday["dayofweek"] = 2
-        elif studyday["dayofweek"] == 7:
-          studyday["dayofweek"] = 3
-      #third study day or beyond
-      if studyday["laststudied"] == "weeklystudy":
-        studyday["dayofweek"] = studyday["dayofweek"]
+      studyday["dayofweek"] = incrementstudyday(studyday["dayofweek"], daystoprogress.get(studyday["laststudied"], 0))
     return newstudydays
 
   #calculates current day of the week and returns a corresponding numeric value
